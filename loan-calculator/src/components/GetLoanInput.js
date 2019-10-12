@@ -32,6 +32,7 @@ class GetLoanInput extends React.Component {
                             defaultValue="500"
                             min="500"
                             max="5000"
+                            step="500"
                             ref={this.loanAmount}
                             onChange={() => {
                                 this.props.onInputChange(this.loanAmount.current.value, this.loanDuration.current.value);

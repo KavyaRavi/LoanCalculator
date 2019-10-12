@@ -13,10 +13,9 @@ class App extends React.Component {
             loanAmount: "500",
             loanDuration: '6'
         });
-    }
-
-    componentDidUpdate() {
-        this.getLoanDetails();
+        setTimeout(() => {
+            this.getLoanDetails();
+        }, 500);
     }
 
     setLoanInputs = (loanAmount, loanDuration) => {
@@ -24,6 +23,9 @@ class App extends React.Component {
             loanAmount,
             loanDuration
         });
+        setTimeout(() => {
+            this.getLoanDetails();
+        }, 500);
     }
 
     getLoanDetails = async () => {
