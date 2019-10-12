@@ -1,51 +1,49 @@
 import React from 'react';
 import axios from '../apis/getloanapi';
 import GetLoanInput from '../components/GetLoanInput';
+import LoanDetails from '../components/LoanDetails';
 import './App.css';
 
 class App extends React.Component {
 
-    state = {loanAmount: null, loanDuration: null};
+    state = {loanAmount: null, loanDuration: null, rateofInterest: null, monthlyPayment: null};
 
     componentDidMount() {
-
         this.setState({
             loanAmount: "500",
             loanDuration: '6'
         });
+    }
 
-        setTimeout(() => {
-            this.getLoanDetails();
-        }, 500);
-
+    componentDidUpdate() {
+        this.getLoanDetails();
     }
 
     setLoanInputs = (loanAmount, loanDuration) => {
-
         this.setState({
             loanAmount,
             loanDuration
         });
-
-        setTimeout(() => {
-            this.getLoanDetails();
-        }, 500);
-
     }
 
     getLoanDetails = async () => {
-
-        let amount = this.state.loanAmount, numMonths = this.state.loanDuration;
+        const amount = this.state.loanAmount, 
+            numMonths = this.state.loanDuration;
 
         const response = await axios.get('/interest', {
             params: {
-                amount: amount,
-                numMonths: numMonths
+                amount,
+                numMonths
             }
         });
 
-        console.log(response);
+        const rateofInterest = response.data.interestRate + " %",
+            monthlyPayment = response.data.monthlyPayment.amount + " " + response.data.monthlyPayment.currency;
 
+        this.setState({
+            rateofInterest,
+            monthlyPayment 
+        });
     }
 
     render() {
@@ -57,6 +55,9 @@ class App extends React.Component {
                 <div className="row">
                     <div className="col-md-6 col-sm-12">
                         <GetLoanInput onInputChange={this.setLoanInputs} />
+                    </div>
+                    <div className="col-md-6 col-sm-12">
+                        <LoanDetails rateofInterest={this.state.rateofInterest} monthlyPayment={this.state.monthlyPayment} />
                     </div>
                 </div>
             </div>
