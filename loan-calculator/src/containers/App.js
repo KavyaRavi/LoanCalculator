@@ -13,11 +13,9 @@ class App extends React.Component {
     loanDetails: []
   };
 
-  componentDidMount() {
-    this.setState({
-      loanAmount: "500",
-      loanDuration: "6"
-    });
+  constructor(props) {
+    super(props);
+
     const loanDetails = [
       {
         amount: "500",
@@ -25,6 +23,13 @@ class App extends React.Component {
       }
     ];
     localStorage.setItem("loanDetails", JSON.stringify(loanDetails));
+  }
+
+  componentDidMount() {
+    this.setState({
+      loanAmount: "500",
+      loanDuration: "6"
+    });
     setTimeout(() => {
       this.getLoanDetails();
     }, 500);
